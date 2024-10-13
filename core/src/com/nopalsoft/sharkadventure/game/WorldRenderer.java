@@ -75,9 +75,9 @@ public class WorldRenderer {
 			Items obj = i.next();
 			AtlasRegion keyFrame;
 			if (obj.tipo == Items.TIPO_CARNE)
-				keyFrame = Assets.carne;
+				keyFrame = Assets.meat;
 			else
-				keyFrame = Assets.corazon;
+				keyFrame = Assets.heart;
 
 			batcher.draw(keyFrame, obj.position.x - Items.DRAW_WIDTH / 2f, obj.position.y - Items.DRAW_HEIGHT / 2f, Items.DRAW_WIDTH,
 					Items.DRAW_HEIGHT);
@@ -93,12 +93,12 @@ public class WorldRenderer {
 			AtlasRegion keyFrame;
 			switch (obj.tipo) {
 			case Submarino.TIPO_AMARILLO:
-				keyFrame = Assets.submarinoAmarillo;
+				keyFrame = Assets.yellowSubmarine;
 				break;
 
 			default:
 			case Submarino.TIPO_ROJO:
-				keyFrame = Assets.submarinoRojo;
+				keyFrame = Assets.redSubmarine;
 				break;
 			}
 
@@ -122,7 +122,7 @@ public class WorldRenderer {
 
 	private void drawExplosionSubmarino(float x, float y, float stateTime) {
 		if (stateTime >= 0 && stateTime <= Submarino.DURATION_EXPLOTION) {
-			batcher.draw(Assets.explosion.getKeyFrame(stateTime), x - .2f, y - .2f, .4f, .4f);
+			batcher.draw(Assets.explosionAnimation.getKeyFrame(stateTime), x - .2f, y - .2f, .4f, .4f);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class WorldRenderer {
 			Torpedo obj = i.next();
 
 			if (obj.state == Torpedo.STATE_EXPLODE) {
-				batcher.draw(Assets.explosion.getKeyFrame(obj.stateTime), obj.position.x - .4f, obj.position.y - .4f, .8f, .8f);
+				batcher.draw(Assets.explosionAnimation.getKeyFrame(obj.stateTime), obj.position.x - .4f, obj.position.y - .4f, .8f, .8f);
 			}
 			else if (obj.state == Torpedo.STATE_NORMAL) {
 
@@ -140,15 +140,15 @@ public class WorldRenderer {
 					batcher.draw(Assets.torpedo, obj.position.x + Torpedo.DRAW_WIDTH / 2f, obj.position.y - Torpedo.DRAW_HEIGHT / 2f,
 							-Torpedo.DRAW_WIDTH, Torpedo.DRAW_HEIGHT);
 
-					Assets.burbujaTorpedoRightSide.setPosition(obj.position.x + .34f, obj.position.y - .075f);
-					Assets.burbujaTorpedoRightSide.draw(batcher, delta);
+					Assets.particleEffectTorpedoBubbleRightSide.setPosition(obj.position.x + .34f, obj.position.y - .075f);
+					Assets.particleEffectTorpedoBubbleRightSide.draw(batcher, delta);
 				}
 				else {
 					batcher.draw(Assets.torpedo, obj.position.x - Torpedo.DRAW_WIDTH / 2f, obj.position.y - Torpedo.DRAW_HEIGHT / 2f,
 							Torpedo.DRAW_WIDTH, Torpedo.DRAW_HEIGHT);
 
-					Assets.burbujaTorpedoLeftSide.setPosition(obj.position.x - .45f, obj.position.y - .075f);
-					Assets.burbujaTorpedoLeftSide.draw(batcher, delta);
+					Assets.particleEffectTorpedoBubbleLeftSide.setPosition(obj.position.x - .45f, obj.position.y - .075f);
+					Assets.particleEffectTorpedoBubbleLeftSide.draw(batcher, delta);
 
 				}
 			}
@@ -161,7 +161,7 @@ public class WorldRenderer {
 			Blast obj = i.next();
 
 			if (obj.state == Blast.STATE_HIT) {
-				batcher.draw(Assets.blastHit.getKeyFrame(obj.stateTime), obj.position.x - .25f, obj.position.y - .25f, .5f, .5f);
+				batcher.draw(Assets.animationBlastHit.getKeyFrame(obj.stateTime), obj.position.x - .25f, obj.position.y - .25f, .5f, .5f);
 			}
 			else {
 
@@ -177,30 +177,30 @@ public class WorldRenderer {
 	}
 
 	private void drawParticulasFondo(float delta) {
-		Assets.peces.setPosition(0, 0);
-		Assets.peces.draw(batcher, delta);
+		Assets.particleEffectFish.setPosition(0, 0);
+		Assets.particleEffectFish.draw(batcher, delta);
 
-		Assets.pecesMediano.setPosition(Screens.WORLD_WIDTH, 0);
-		Assets.pecesMediano.draw(batcher, delta);
+		Assets.particleEffectMediumFish.setPosition(Screens.WORLD_WIDTH, 0);
+		Assets.particleEffectMediumFish.draw(batcher, delta);
 
 	}
 
 	private void drawSueloAtras(float delta) {
-		Assets.parallaxAtras.render(delta);
+		Assets.parallaxBack.render(delta);
 	}
 
 	private void drawBackground() {
-		batcher.draw(Assets.fondo, 0, 0, Screens.WORLD_WIDTH, Screens.WORLD_HEIGHT);
+		batcher.draw(Assets.background, 0, 0, Screens.WORLD_WIDTH, Screens.WORLD_HEIGHT);
 	}
 
 	private void drawSueloFrente(float delta) {
-		Assets.parallaxFrente.render(delta);
+		Assets.parallaxFront.render(delta);
 
 	}
 
 	private void drawBarriles(float delta) {
 
-		Assets.burbujaEffect.update(delta);
+		Assets.particleEffectBubble.update(delta);
 
 		Iterator<Barril> i = oWorld.arrBarriles.iterator();
 		while (i.hasNext()) {
@@ -208,32 +208,32 @@ public class WorldRenderer {
 			TextureRegion keyframe = null;
 
 			if (obj.state == Barril.STATE_EXPLODE) {
-				keyframe = Assets.explosion.getKeyFrame(obj.stateTime);
+				keyframe = Assets.explosionAnimation.getKeyFrame(obj.stateTime);
 				batcher.draw(keyframe, obj.position.x - .4f, obj.position.y - .4f, .8f, .8f);
 			}
 			else if (obj.state == Barril.STATE_NORMAL) {
 
 				switch (obj.tipo) {
 				case Barril.TIPO_AMARILLO:
-					keyframe = Assets.barrilAmarillo;
+					keyframe = Assets.yellowBarrel;
 					break;
 				case Barril.TIPO_NEGRO:
-					keyframe = Assets.barrilNegro;
+					keyframe = Assets.blackBarrel;
 					break;
 				case Barril.TIPO_ROJO:
-					keyframe = Assets.barrilRojo;
+					keyframe = Assets.redBarrel;
 					break;
 				default:
 				case Barril.TIPO_VERDE:
-					keyframe = Assets.barrilVerde;
+					keyframe = Assets.greenBarrel;
 					break;
 				}
 
 				batcher.draw(keyframe, obj.position.x - Barril.DRAW_WIDTH / 2f, obj.position.y - Barril.DRAW_HEIGHT / 2f, Barril.DRAW_WIDTH / 2f,
 						Barril.DRAW_HEIGHT / 2f, Barril.DRAW_WIDTH, Barril.DRAW_HEIGHT, 1, 1, obj.angleDeg);
 
-				Assets.burbujaEffect.setPosition(obj.position.x, obj.position.y);
-				Assets.burbujaEffect.draw(batcher);
+				Assets.particleEffectBubble.setPosition(obj.position.x, obj.position.y);
+				Assets.particleEffectBubble.draw(batcher);
 			}
 		}
 
@@ -246,18 +246,18 @@ public class WorldRenderer {
 			TextureRegion keyframe = null;
 
 			if (obj.state == Mina.STATE_EXPLODE) {
-				keyframe = Assets.explosion.getKeyFrame(obj.stateTime);
+				keyframe = Assets.explosionAnimation.getKeyFrame(obj.stateTime);
 				batcher.draw(keyframe, obj.position.x - .3f, obj.position.y - .3f, .6f, .6f);
 			}
 			else if (obj.state == Mina.STATE_NORMAL) {
 
 				switch (obj.tipo) {
 				case Mina.TIPO_GRIS:
-					keyframe = Assets.minaGris;
+					keyframe = Assets.grayMine;
 					break;
 				case Mina.TIPO_OXIDO:
 				default:
-					keyframe = Assets.minaOxido;
+					keyframe = Assets.oxideMine;
 					break;
 				}
 
@@ -286,19 +286,19 @@ public class WorldRenderer {
 		TextureRegion keyframe = null;
 
 		if (obj.state == Tiburon.STATE_DEAD) {
-			keyframe = Assets.tiburonDead;
+			keyframe = Assets.SharkDead;
 		}
 		else if (obj.isFiring) {// Disparar sobreescribe todo lo demas
-			keyframe = Assets.tiburonFire.getKeyFrame(obj.stateTime);
+			keyframe = Assets.animationSharkFire.getKeyFrame(obj.stateTime);
 		}
 		else if (obj.isTurbo) {
-			keyframe = Assets.tiburonFast.getKeyFrame(obj.stateTime, true);
+			keyframe = Assets.animationSharkMove.getKeyFrame(obj.stateTime, true);
 		}
 		else
-			keyframe = Assets.tiburonSwim.getKeyFrame(obj.stateTime, true);
+			keyframe = Assets.animationSharkSwim.getKeyFrame(obj.stateTime, true);
 
 		if (obj.isTurbo) {
-			batcher.draw(Assets.turboTail, obj.position.x - 1f, obj.position.y - .27f, .96f, .48f);
+			batcher.draw(Assets.TurboTail, obj.position.x - 1f, obj.position.y - .27f, .96f, .48f);
 		}
 
 		if (obj.isFacingLeft) {
@@ -309,8 +309,8 @@ public class WorldRenderer {
 			batcher.draw(keyframe, obj.position.x - .6f, obj.position.y - .39f, .6f, .39f, 1.2f, .78f, 1, 1, obj.angleDeg);
 		}
 
-		Assets.burbujaTiburon.setPosition(obj.position.x, obj.position.y);
-		Assets.burbujaTiburon.draw(batcher, delta);
+		Assets.particleEffectSharkBubble.setPosition(obj.position.x, obj.position.y);
+		Assets.particleEffectSharkBubble.draw(batcher, delta);
 
 	}
 }

@@ -19,7 +19,7 @@ public abstract class Screens extends InputAdapter implements Screen {
 	public static final float WORLD_HEIGHT = 4.8f;
 
 	public MainShark game;
-	public OrthographicCamera oCam;
+	public OrthographicCamera camera;
 	public SpriteBatch batcher;
 
 	public Stage stage;
@@ -30,8 +30,8 @@ public abstract class Screens extends InputAdapter implements Screen {
 		stage.clear();
 		batcher = game.batcher;
 
-		oCam = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
-		oCam.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
+		camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+		camera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
 
 		InputMultiplexer input = new InputMultiplexer(stage, this);
 		Gdx.input.setInputProcessor(input);
@@ -43,8 +43,8 @@ public abstract class Screens extends InputAdapter implements Screen {
 		update(delta);
 		stage.act(delta);
 
-		oCam.update();
-		batcher.setProjectionMatrix(oCam.combined);
+		camera.update();
+		batcher.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		draw(delta);

@@ -9,7 +9,6 @@ import com.nopalsoft.sharkadventure.MainShark;
 import com.nopalsoft.sharkadventure.Settings;
 import com.nopalsoft.sharkadventure.scene2d.GameUI;
 import com.nopalsoft.sharkadventure.scene2d.MenuUI;
-import com.nopalsoft.sharkadventure.scene2d.VentanaPause;
 import com.nopalsoft.sharkadventure.screens.Screens;
 
 public class GameScreen extends Screens {
@@ -24,7 +23,7 @@ public class GameScreen extends Screens {
 
 	GameUI gameUI;
 	MenuUI menuUI;
-	VentanaPause vtPause;
+	com.nopalsoft.sharkadventure.scene2d.PauseWindowGroup vtPause;
 
 	public long puntuacion;
 
@@ -40,7 +39,7 @@ public class GameScreen extends Screens {
 		renderer = new WorldRenderer(batcher, oWorld);
 		gameUI = new GameUI(this, oWorld);
 		menuUI = new MenuUI(this, oWorld);
-		vtPause = new VentanaPause(this);
+		vtPause = new com.nopalsoft.sharkadventure.scene2d.PauseWindowGroup(this);
 
 		Assets.reloadFondo();
 
@@ -145,8 +144,8 @@ public class GameScreen extends Screens {
 			gameUI.removeWithAnimations();
 			game.gameServiceHandler.submitScore((long) oWorld.puntuacion);
 
-			Settings.numVecesJugadas++;
-			if (Settings.numVecesJugadas % 4f == 0) {
+			Settings.numberOfTimesPlayed++;
+			if (Settings.numberOfTimesPlayed % 4f == 0) {
 				game.reqHandler.showInterstitial();
 			}
 			game.reqHandler.showAdBanner();
@@ -176,8 +175,8 @@ public class GameScreen extends Screens {
 
 		renderer.render(delta);
 
-		oCam.update();
-		batcher.setProjectionMatrix(oCam.combined);
+		camera.update();
+		batcher.setProjectionMatrix(camera.combined);
 		batcher.enableBlending();
 		batcher.begin();
 
