@@ -88,5 +88,3 @@ task run(type: Exec) {
     def adb = path + "/platform-tools/adb"
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.nopalsoft.sharkadventure/com.nopalsoft.sharkadventure.AndroidLauncher'
 }
-
-eclipse.project.name = appName + "-android"
