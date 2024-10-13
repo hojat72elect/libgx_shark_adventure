@@ -23,28 +23,8 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
     }
 
     @Override
-    public void facebookSignOut() {
-
-    }
-
-    @Override
-    public boolean facebookIsSignedIn() {
-        return false;
-    }
-
-    @Override
-    public void facebookShareFeed(String message) {
-
-    }
-
-    @Override
     public void showFacebook() {
         Gdx.net.openURI("https://www.facebook.com");
-    }
-
-    @Override
-    public void facebookInviteFriends(String message) {
-
     }
 
     @Override
@@ -78,34 +58,14 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
     }
 
     @Override
-    public void signOut() {
-
-    }
-
-    @Override
-    public void showRater() {
-
-    }
-
-    @Override
     public void showInterstitial() {
 
-    }
-
-    @Override
-    public void showMoreGames() {
-        Gdx.net.openURI("https://play.google.com/");
     }
 
     @Override
     public void shareOnTwitter(String mensaje) {
         String tweetUrl = "https://twitter.com/intent/tweet?text=" + mensaje + " Download it from &url=https://play.google.com/&hashtags=SharkAdventure";
         Gdx.net.openURI(tweetUrl);
-    }
-
-    @Override
-    public void removeAds() {
-
     }
 
     @Override
@@ -118,23 +78,4 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 
     }
 
-    @Override
-    public void buy5milCoins() {
-
-    }
-
-    @Override
-    public void buy15milCoins() {
-
-    }
-
-    @Override
-    public void buy30milCoins() {
-
-    }
-
-    @Override
-    public void buy50milCoins() {
-
-    }
 }

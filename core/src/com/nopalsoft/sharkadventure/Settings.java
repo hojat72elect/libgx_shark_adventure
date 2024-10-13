@@ -16,14 +16,11 @@ public class Settings {
     public static void save() {
         pref.putBoolean("isMusicOn", isMusicOn);
         pref.putBoolean("isSoundOn", isSoundOn);
-
         pref.putBoolean("didBuyNoAds", didBuyNoAds);
         pref.putBoolean("didRate", didRate);
-
         pref.putLong("numVecesJugadas", numberOfTimesPlayed);
         pref.putLong("bestScore", bestScore);
         pref.flush();
-
     }
 
     public static void load() {

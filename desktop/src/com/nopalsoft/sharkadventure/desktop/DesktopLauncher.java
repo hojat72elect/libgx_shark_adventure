@@ -12,11 +12,6 @@ public class DesktopLauncher {
     static RequestHandler handler = new RequestHandler() {
 
         @Override
-        public void showRater() {
-
-        }
-
-        @Override
         public void showInterstitial() {
 
         }
@@ -27,19 +22,9 @@ public class DesktopLauncher {
         }
 
         @Override
-        public void showMoreGames() {
-            Gdx.net.openURI("https://play.google.com/");
-        }
-
-        @Override
         public void shareOnTwitter(String mensaje) {
             String tweetUrl = "https://twitter.com/intent/tweet?text=" + mensaje + " Download it from &url=https://play.google.com/&hashtags=SharkAdventure";
             Gdx.net.openURI(tweetUrl);
-        }
-
-        @Override
-        public void removeAds() {
-
         }
 
         @Override
@@ -47,25 +32,6 @@ public class DesktopLauncher {
 
         }
 
-        @Override
-        public void buy5milCoins() {
-
-        }
-
-        @Override
-        public void buy50milCoins() {
-
-        }
-
-        @Override
-        public void buy30milCoins() {
-
-        }
-
-        @Override
-        public void buy15milCoins() {
-
-        }
     };
     static GameServicesHandler gameServicesHandler = new GameServicesHandler() {
 
@@ -76,11 +42,6 @@ public class DesktopLauncher {
 
         @Override
         public void submitScore(long score) {
-
-        }
-
-        @Override
-        public void signOut() {
 
         }
 
@@ -113,29 +74,10 @@ public class DesktopLauncher {
 
 
         @Override
-        public void facebookSignOut() {
-
-        }
-
-        @Override
         public void facebookSignIn() {
 
         }
 
-        @Override
-        public void facebookShareFeed(String message) {
-
-        }
-
-        @Override
-        public boolean facebookIsSignedIn() {
-            return false;
-        }
-
-        @Override
-        public void facebookInviteFriends(String message) {
-
-        }
     };
 
     public static void main(String[] arg) {

@@ -3,8 +3,13 @@ package com.nopalsoft.sharkadventure;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -58,45 +63,45 @@ public class Assets {
     public static ParticleEffect particleEffectFish;
     public static ParticleEffect particleEffectMediumFish;
 
-    public static TextureRegionDrawable btDer;
-    public static TextureRegionDrawable btDerPress;
-    public static TextureRegionDrawable btIzq;
-    public static TextureRegionDrawable btIzqPress;
-    public static TextureRegionDrawable btUp;
-    public static TextureRegionDrawable btUpPress;
-    public static TextureRegionDrawable btFire;
-    public static TextureRegionDrawable btFirePress;
-    public static TextureRegionDrawable btHome;
-    public static TextureRegionDrawable btHomePress;
-    public static TextureRegionDrawable btPausa;
-    public static TextureRegionDrawable btPausaPress;
-    public static TextureRegionDrawable btLeaderboard;
-    public static TextureRegionDrawable btLeaderboardPress;
-    public static TextureRegionDrawable btFacebook;
-    public static TextureRegionDrawable btFacebookPress;
-    public static TextureRegionDrawable btMusicOn;
-    public static TextureRegionDrawable btMusicOff;
-    public static TextureRegionDrawable btSoundOn;
-    public static TextureRegionDrawable btSoundOff;
-    public static TextureRegionDrawable btRefresh;
-    public static TextureRegionDrawable btRefreshPress;
-    public static TextureRegionDrawable btAchievements;
-    public static TextureRegionDrawable btAchievementsPress;
-    public static TextureRegionDrawable btTwitter;
-    public static TextureRegionDrawable btTwitterPress;
+    public static TextureRegionDrawable buttonRight;
+    public static TextureRegionDrawable buttonRightPress;
+    public static TextureRegionDrawable buttonLeft;
+    public static TextureRegionDrawable buttonLeftPress;
+    public static TextureRegionDrawable buttonUp;
+    public static TextureRegionDrawable buttonUpPress;
+    public static TextureRegionDrawable buttonFire;
+    public static TextureRegionDrawable buttonFirePress;
+    public static TextureRegionDrawable buttonHome;
+    public static TextureRegionDrawable buttonHomePress;
+    public static TextureRegionDrawable buttonPause;
+    public static TextureRegionDrawable buttonPausePress;
+    public static TextureRegionDrawable buttonLeaderboard;
+    public static TextureRegionDrawable buttonLeaderboardPress;
+    public static TextureRegionDrawable buttonFacebook;
+    public static TextureRegionDrawable buttonFacebookPress;
+    public static TextureRegionDrawable buttonMusicOn;
+    public static TextureRegionDrawable buttonMusicOff;
+    public static TextureRegionDrawable buttonSoundOn;
+    public static TextureRegionDrawable buttonSoundOff;
+    public static TextureRegionDrawable buttonRefresh;
+    public static TextureRegionDrawable buttonRefreshPress;
+    public static TextureRegionDrawable buttonAchievements;
+    public static TextureRegionDrawable buttonAchievementsPress;
+    public static TextureRegionDrawable buttonTwitter;
+    public static TextureRegionDrawable buttonTwitterPress;
     public static TextureRegionDrawable backgroundProgressBar;
 
 
     public static NinePatchDrawable backgroundMenu;
-    public static NinePatchDrawable backgroundVentana;
-    public static NinePatchDrawable backgroundTitulo;
-    public static LabelStyle lblStyle;
-    public static Sound sSwim;
-    public static Sound sSonar;
-    public static Sound sExplosion1;
-    public static Sound sExplosion2;
-    public static Sound sBlast;
-    public static Music musica;
+    public static NinePatchDrawable backgroundWindow;
+    public static NinePatchDrawable backgroundTitle;
+    public static LabelStyle labelStyle;
+    public static Sound soundSwim;
+    public static Sound soundSonar;
+    public static Sound soundExplosion1;
+    public static Sound soundExplosion2;
+    public static Sound soundBlast;
+    public static Music music;
     static TextureAtlas atlas;
 
     public static void load() {
@@ -166,7 +171,7 @@ public class Assets {
         heart = atlas.findRegion("corazon");
         meat = atlas.findRegion("carne");
 
-        reloadFondo();
+        reloadBackground();
 
         particleEffectBubble = new ParticleEffect();
         particleEffectBubble.load(Gdx.files.internal("particulas/burbujas"), atlas);
@@ -186,17 +191,17 @@ public class Assets {
         particleEffectMediumFish = new ParticleEffect();
         particleEffectMediumFish.load(Gdx.files.internal("particulas/pecesMediano"), atlas);
 
-        sSwim = Gdx.audio.newSound(Gdx.files.internal("sound/swim.mp3"));
-        sSonar = Gdx.audio.newSound(Gdx.files.internal("sound/sonar.mp3"));
-        sExplosion1 = Gdx.audio.newSound(Gdx.files.internal("sound/explosion1.mp3"));
-        sExplosion2 = Gdx.audio.newSound(Gdx.files.internal("sound/explosion2.mp3"));
-        sBlast = Gdx.audio.newSound(Gdx.files.internal("sound/blast1.mp3"));
+        soundSwim = Gdx.audio.newSound(Gdx.files.internal("sound/swim.mp3"));
+        soundSonar = Gdx.audio.newSound(Gdx.files.internal("sound/sonar.mp3"));
+        soundExplosion1 = Gdx.audio.newSound(Gdx.files.internal("sound/explosion1.mp3"));
+        soundExplosion2 = Gdx.audio.newSound(Gdx.files.internal("sound/explosion2.mp3"));
+        soundBlast = Gdx.audio.newSound(Gdx.files.internal("sound/blast1.mp3"));
 
-        musica = Gdx.audio.newMusic(Gdx.files.internal("sound/jungleHaze.mp3"));
-        musica.setLooping(true);
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/jungleHaze.mp3"));
+        music.setLooping(true);
 
         if (Settings.isMusicOn)
-            musica.play();
+            music.play();
 
     }
 
@@ -204,72 +209,72 @@ public class Assets {
         drawableTitle = new TextureRegionDrawable(atlas.findRegion("UI/titulo"));
         drawableGameOver = new TextureRegionDrawable(atlas.findRegion("UI/gameOver2"));
 
-        btDer = new TextureRegionDrawable(atlas.findRegion("UI/btDer"));
-        btDerPress = new TextureRegionDrawable(atlas.findRegion("UI/btDerPress"));
-        btIzq = new TextureRegionDrawable(atlas.findRegion("UI/btIzq"));
-        btIzqPress = new TextureRegionDrawable(atlas.findRegion("UI/btIzqPress"));
-        btUp = new TextureRegionDrawable(atlas.findRegion("UI/btUp"));
-        btUpPress = new TextureRegionDrawable(atlas.findRegion("UI/btUpPress"));
-        btFire = new TextureRegionDrawable(atlas.findRegion("UI/btFire"));
-        btFirePress = new TextureRegionDrawable(atlas.findRegion("UI/btFirePress"));
+        buttonRight = new TextureRegionDrawable(atlas.findRegion("UI/btDer"));
+        buttonRightPress = new TextureRegionDrawable(atlas.findRegion("UI/btDerPress"));
+        buttonLeft = new TextureRegionDrawable(atlas.findRegion("UI/btIzq"));
+        buttonLeftPress = new TextureRegionDrawable(atlas.findRegion("UI/btIzqPress"));
+        buttonUp = new TextureRegionDrawable(atlas.findRegion("UI/btUp"));
+        buttonUpPress = new TextureRegionDrawable(atlas.findRegion("UI/btUpPress"));
+        buttonFire = new TextureRegionDrawable(atlas.findRegion("UI/btFire"));
+        buttonFirePress = new TextureRegionDrawable(atlas.findRegion("UI/btFirePress"));
 
-        btRefresh = new TextureRegionDrawable(atlas.findRegion("UI/btRefresh"));
-        btRefreshPress = new TextureRegionDrawable(atlas.findRegion("UI/btRefreshPress"));
-        btHome = new TextureRegionDrawable(atlas.findRegion("UI/btHome"));
-        btHomePress = new TextureRegionDrawable(atlas.findRegion("UI/btHomePress"));
-        btPausa = new TextureRegionDrawable(atlas.findRegion("UI/btPausa"));
-        btPausaPress = new TextureRegionDrawable(atlas.findRegion("UI/btPausaPress"));
-        btLeaderboard = new TextureRegionDrawable(atlas.findRegion("UI/btLeaderboard"));
-        btLeaderboardPress = new TextureRegionDrawable(atlas.findRegion("UI/btLeaderboardPress"));
-        btAchievements = new TextureRegionDrawable(atlas.findRegion("UI/btAchievements"));
-        btAchievementsPress = new TextureRegionDrawable(atlas.findRegion("UI/btAchievementsPress"));
-        btFacebook = new TextureRegionDrawable(atlas.findRegion("UI/btFacebook"));
-        btFacebookPress = new TextureRegionDrawable(atlas.findRegion("UI/btFacebookPress"));
-        btTwitter = new TextureRegionDrawable(atlas.findRegion("UI/btTwitter"));
-        btTwitterPress = new TextureRegionDrawable(atlas.findRegion("UI/btTwitterPress"));
-        btSoundOn = new TextureRegionDrawable(atlas.findRegion("UI/btSonido"));
-        btSoundOff = new TextureRegionDrawable(atlas.findRegion("UI/btSonidoOff"));
-        btMusicOn = new TextureRegionDrawable(atlas.findRegion("UI/btMusic"));
-        btMusicOff = new TextureRegionDrawable(atlas.findRegion("UI/btMusicOff"));
+        buttonRefresh = new TextureRegionDrawable(atlas.findRegion("UI/btRefresh"));
+        buttonRefreshPress = new TextureRegionDrawable(atlas.findRegion("UI/btRefreshPress"));
+        buttonHome = new TextureRegionDrawable(atlas.findRegion("UI/btHome"));
+        buttonHomePress = new TextureRegionDrawable(atlas.findRegion("UI/btHomePress"));
+        buttonPause = new TextureRegionDrawable(atlas.findRegion("UI/btPausa"));
+        buttonPausePress = new TextureRegionDrawable(atlas.findRegion("UI/btPausaPress"));
+        buttonLeaderboard = new TextureRegionDrawable(atlas.findRegion("UI/btLeaderboard"));
+        buttonLeaderboardPress = new TextureRegionDrawable(atlas.findRegion("UI/btLeaderboardPress"));
+        buttonAchievements = new TextureRegionDrawable(atlas.findRegion("UI/btAchievements"));
+        buttonAchievementsPress = new TextureRegionDrawable(atlas.findRegion("UI/btAchievementsPress"));
+        buttonFacebook = new TextureRegionDrawable(atlas.findRegion("UI/btFacebook"));
+        buttonFacebookPress = new TextureRegionDrawable(atlas.findRegion("UI/btFacebookPress"));
+        buttonTwitter = new TextureRegionDrawable(atlas.findRegion("UI/btTwitter"));
+        buttonTwitterPress = new TextureRegionDrawable(atlas.findRegion("UI/btTwitterPress"));
+        buttonSoundOn = new TextureRegionDrawable(atlas.findRegion("UI/btSonido"));
+        buttonSoundOff = new TextureRegionDrawable(atlas.findRegion("UI/btSonidoOff"));
+        buttonMusicOn = new TextureRegionDrawable(atlas.findRegion("UI/btMusic"));
+        buttonMusicOff = new TextureRegionDrawable(atlas.findRegion("UI/btMusicOff"));
 
         redBar = atlas.findRegion("UI/redBar");
         energyBar = atlas.findRegion("UI/energyBar");
 
         backgroundProgressBar = new TextureRegionDrawable(atlas.findRegion("UI/backgroundProgressBar"));
         backgroundMenu = new NinePatchDrawable(new NinePatch(atlas.findRegion("UI/backgroundMenu"), 70, 70, 60, 60));
-        backgroundVentana = new NinePatchDrawable(new NinePatch(atlas.findRegion("UI/backgroundVentana"), 25, 25, 25, 25));
-        backgroundTitulo = new NinePatchDrawable(new NinePatch(atlas.findRegion("UI/backgroundTitulo"), 30, 30, 0, 0));
+        backgroundWindow = new NinePatchDrawable(new NinePatch(atlas.findRegion("UI/backgroundVentana"), 25, 25, 25, 25));
+        backgroundTitle = new NinePatchDrawable(new NinePatch(atlas.findRegion("UI/backgroundTitulo"), 30, 30, 0, 0));
 
-        lblStyle = new LabelStyle(Assets.fontLarge, null);
+        labelStyle = new LabelStyle(Assets.fontLarge, null);
 
     }
 
-    public static void reloadFondo() {
-        ParallaxLayer sueloFrente;
-        ParallaxLayer sueloAtras;
+    public static void reloadBackground() {
+        ParallaxLayer frontLayer;
+        ParallaxLayer backLayer;
 
         if (MathUtils.randomBoolean()) {
             background = atlas.findRegion("fondo");
-            sueloAtras = new ParallaxLayer(atlas.findRegion("sueloAtras"), new Vector2(5, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
-            sueloFrente = new ParallaxLayer(atlas.findRegion("suelo"), new Vector2(15, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
+            backLayer = new ParallaxLayer(atlas.findRegion("sueloAtras"), new Vector2(5, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
+            frontLayer = new ParallaxLayer(atlas.findRegion("suelo"), new Vector2(15, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
 
         } else {
             background = atlas.findRegion("fondo2");
-            sueloAtras = new ParallaxLayer(atlas.findRegion("suelo2Atras"), new Vector2(5, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
-            sueloFrente = new ParallaxLayer(atlas.findRegion("suelo2"), new Vector2(15, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
+            backLayer = new ParallaxLayer(atlas.findRegion("suelo2Atras"), new Vector2(5, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
+            frontLayer = new ParallaxLayer(atlas.findRegion("suelo2"), new Vector2(15, 0), new Vector2(0, -50), new Vector2(-1, 480), 1024, 121);
 
         }
-        parallaxBack = new ParallaxBackground(new ParallaxLayer[]{sueloAtras}, 800, 480, new Vector2(10, 0));
-        parallaxFront = new ParallaxBackground(new ParallaxLayer[]{sueloFrente}, 800, 480, new Vector2(10, 0));
+        parallaxBack = new ParallaxBackground(new ParallaxLayer[]{backLayer}, 800, 480, new Vector2(10, 0));
+        parallaxFront = new ParallaxBackground(new ParallaxLayer[]{frontLayer}, 800, 480, new Vector2(10, 0));
     }
 
     public static void playExplosionSound() {
         int sound = MathUtils.random(1);
-        Sound sonido;
+        Sound soundToBePlayed;
         if (sound == 0)
-            sonido = sExplosion1;
+            soundToBePlayed = soundExplosion1;
         else
-            sonido = sExplosion2;
-        sonido.play();
+            soundToBePlayed = soundExplosion2;
+        soundToBePlayed.play();
     }
 }

@@ -32,14 +32,14 @@ public class PauseWindowGroup extends Group {
         Table tableTitle = new Table();
         tableTitle.setSize(getWidth() - 80, 50);
         tableTitle.setPosition(getWidth() / 2f - tableTitle.getWidth() / 2f, getHeight() - 30);
-        tableTitle.setBackground(Assets.backgroundTitulo);
+        tableTitle.setBackground(Assets.backgroundTitle);
 
-        Label labelTitle = new Label("Paused", Assets.lblStyle);
+        Label labelTitle = new Label("Paused", Assets.labelStyle);
 
         tableTitle.add(labelTitle).fill().padBottom(10);
         addActor(tableTitle);
 
-        buttonPlay = new Button(Assets.btDer, Assets.btDerPress);
+        buttonPlay = new Button(Assets.buttonRight, Assets.buttonRightPress);
         buttonPlay.setSize(70, 70);
         buttonPlay.setPosition(getWidth() / 2f - buttonPlay.getWidth() / 2f, 170);
         buttonPlay.addListener(new ClickListener() {
@@ -51,7 +51,7 @@ public class PauseWindowGroup extends Group {
             }
         });
 
-        buttonRefresh = new Button(Assets.btRefresh, Assets.btRefreshPress);
+        buttonRefresh = new Button(Assets.buttonRefresh, Assets.buttonRefreshPress);
         buttonRefresh.setSize(70, 70);
         buttonRefresh.setPosition(getWidth() / 2f + 25, 80);
         buttonRefresh.addListener(new ClickListener() {
@@ -62,7 +62,7 @@ public class PauseWindowGroup extends Group {
             }
         });
 
-        buttonHome = new Button(Assets.btHome, Assets.btHomePress);
+        buttonHome = new Button(Assets.buttonHome, Assets.buttonHomePress);
         buttonHome.setSize(70, 70);
         buttonHome.setPosition(getWidth() / 2f - buttonHome.getWidth() - 25, 80);
         buttonHome.addListener(new ClickListener() {
@@ -79,7 +79,7 @@ public class PauseWindowGroup extends Group {
     }
 
     private void setBackGround() {
-        Image image = new Image(Assets.backgroundVentana);
+        Image image = new Image(Assets.backgroundWindow);
         image.setSize(getWidth(), getHeight());
         addActor(image);
 
