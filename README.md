@@ -1,11 +1,6 @@
 # LibGDX Shark adventure
 
-[Try the game in your Browser](https://yayo-arellano.github.io/libgx_shark_adventure/)
 
-Download assets:
-
-- [Game assets](https://graphicriver.net/item/shark-game-assets/6807369)
-- [UI assets](https://graphicriver.net/item/cartoon-games-gui-pack-11-/6056785)
 
 # Video
 
