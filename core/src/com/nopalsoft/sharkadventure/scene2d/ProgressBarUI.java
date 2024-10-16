@@ -29,7 +29,7 @@ public class ProgressBarUI extends Table {
 
     private void setIcon(AtlasRegion icon) {
         Image imageIcon = new Image(icon);
-        // Both height because i want it to be a square
+        // Both height because I want it to be a square
         imageIcon.scaleBy(-.3f);
         imageIcon.setPosition(-15, getHeight() / 2f - (imageIcon.getPrefHeight() * imageIcon.getScaleY() / 2f));
         addActor(imageIcon);
