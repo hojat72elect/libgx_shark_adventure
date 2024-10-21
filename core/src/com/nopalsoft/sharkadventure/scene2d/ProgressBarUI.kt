@@ -1,52 +1,63 @@
-package com.nopalsoft.sharkadventure.scene2d;
+package com.nopalsoft.sharkadventure.scene2d
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.nopalsoft.sharkadventure.Assets;
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.nopalsoft.sharkadventure.Assets
 
-public class ProgressBarUI extends Table {
-    public final static float WIDTH = 180;
-    public final static float HEIGHT = 30;
-    float BAR_WIDTH = 140;
-    float BAR_HEIGHT = 20;
+/**
+ * This class defines a visual progress bar with a background image, an icon positioned to its left, and
+ * a bar that fills up from left to right based on the actualNum and maxNum values.
+ */
+class ProgressBarUI(
+    private val bar: AtlasRegion,
+    icon: AtlasRegion,
+    private var maxNum: Float,
+    x: Float,
+    y: Float
+) : Table() {
 
-    public float maxNum;
-    public float actualNum;
-    AtlasRegion bar;
+    private var actualNum = maxNum
 
-    public ProgressBarUI(AtlasRegion bar, AtlasRegion icon, float maxNum, float x, float y) {
 
-        this.setBounds(x, y, WIDTH, HEIGHT);
-        this.maxNum = maxNum;
-        this.actualNum = maxNum;
-        setBackground(Assets.backgroundProgressBar);
-        setIcon(icon);
-        this.bar = bar;
-
+    init {
+        setBounds(x, y, WIDTH, HEIGHT)
+        setBackground(Assets.backgroundProgressBar)
+        setIcon(icon)
     }
 
-    private void setIcon(AtlasRegion icon) {
-        Image imageIcon = new Image(icon);
+    private fun setIcon(icon: AtlasRegion) {
+        val imageIcon = Image(icon)
+
         // Both height because I want it to be a square
-        imageIcon.scaleBy(-.3f);
-        imageIcon.setPosition(-15, getHeight() / 2f - (imageIcon.getPrefHeight() * imageIcon.getScaleY() / 2f));
-        addActor(imageIcon);
-
+        imageIcon.scaleBy(-0.3F)
+        imageIcon.setPosition(-15F, height / 2F - (imageIcon.prefHeight * imageIcon.scaleY / 2F))
+        addActor(imageIcon)
     }
 
-    public void updateActualNum(float actualNum) {
-        this.actualNum = actualNum;
+    fun updateActualNum(actualNum: Float) {
+        this.actualNum = actualNum
 
-        if (actualNum > maxNum)
-            maxNum = actualNum;
+        if (actualNum > maxNum) maxNum = actualNum
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        if (actualNum > 0)
-            batch.draw(bar, this.getX() + 34, this.getY() + 6, BAR_WIDTH * (actualNum / maxNum), BAR_HEIGHT);
+    override fun draw(batch: Batch, parentAlpha: Float) {
+        super.draw(batch, parentAlpha)
+        if (actualNum > 0) {
+            batch.draw(
+                bar,
+                this.x + 34,
+                this.y + 6, BAR_WIDTH * (actualNum / maxNum), BAR_HEIGHT
+            )
+        }
+    }
+
+
+    companion object {
+        const val WIDTH = 180F
+        private const val HEIGHT = 30F
+        private const val BAR_WIDTH = 140F
+        private const val BAR_HEIGHT = 20F
     }
 }
