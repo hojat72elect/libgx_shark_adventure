@@ -12,8 +12,8 @@ import com.nopalsoft.sharkadventure.MainShark;
 import com.nopalsoft.sharkadventure.Settings;
 
 public abstract class Screens extends InputAdapter implements Screen {
-	public static final int SCREEN_WIDTH = 800;
-	public static final int SCREEN_HEIGHT = 480;
+	public static final float SCREEN_WIDTH = 800;
+	public static final float SCREEN_HEIGHT = 480;
 
 	public static final float WORLD_WIDTH = 8f;
 	public static final float WORLD_HEIGHT = 4.8f;
