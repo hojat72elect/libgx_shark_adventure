@@ -1,83 +1,84 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.Assets;
-import com.nopalsoft.sharkadventure.Settings;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.Assets
+import com.nopalsoft.sharkadventure.Settings
 
-public class Barrel implements Poolable {
-	public final static int STATE_NORMAL = 0;
-	public final static int STATE_EXPLODE = 1;
-	public final static int STATE_REMOVE = 2;
-	public int state;
+/**
+ * Represents a barrel object in our game. It can have 3 states : 1- Normal, 2- Exploding,
+ * or 3- Removed. It also has properties like position, angle, and type (color of the barrel).
+ * We define its behavior, including how it's initialized, updated over time, and how it reacts to
+ * being hit.
+ */
+class Barrel : Poolable {
 
-	public final static float EXPLOSION_DURATION = .1f * 8f;
+    @JvmField
+    var state = STATE_NORMAL
 
-	public final static float DRAW_WIDTH = .43f;
-	public final static float DRAW_HEIGHT = .68f;
+    @JvmField
+    val position = Vector2()
 
-	public final static float WIDTH = .40f;
-	public final static float HEIGHT = .65f;
+    @JvmField
+    var angleDegree = 0F
 
-	public final static int TYPE_YELLOW = 0;
-	public final static int TYPE_BLACK = 1;
-	public final static int TYPE_RED = 2;
-	public final static int TYPE_GREEN = 3;
-	public int type;
+    @JvmField
+    var stateTime = 0F
 
-	final public Vector2 position;
-	public float angleDegree;
+    @JvmField
+    var type = 0
 
-	public float stateTime;
+    fun initialize(x: Float, y: Float) {
+        position.set(x, y)
+        stateTime = 0F
+        state = STATE_NORMAL
+        type = MathUtils.random(3)
+    }
 
-	public Barrel() {
-		position = new Vector2();
+    fun update(body: Body, delta: Float) {
+        if (state == STATE_NORMAL) {
+            position.x = body.position.x
+            position.y = body.position.y
+            angleDegree = MathUtils.radDeg * body.angle
 
-	}
+            if (position.y < -3) remove()
+        } else if (state == STATE_EXPLODE && stateTime >= EXPLOSION_DURATION) {
+            state = STATE_REMOVE
+            stateTime = 0f
+        }
 
-	public void initialize(float x, float y) {
-		position.set(x, y);
-		stateTime = 0;
-		state = STATE_NORMAL;
-		type = MathUtils.random(3);
-	}
+        stateTime += delta
+    }
 
-	public void update(Body body, float delta) {
-		if (state == STATE_NORMAL) {
-			position.x = body.getPosition().x;
-			position.y = body.getPosition().y;
-			angleDegree = MathUtils.radDeg * body.getAngle();
+    fun hit() {
+        if (state == STATE_NORMAL) {
+            state = STATE_EXPLODE
+            stateTime = 0f
+            if (Settings.isSoundOn) Assets.playExplosionSound()
+        }
+    }
 
-			if (position.y < -3)
-				remove();
-		}
-		else if (state == STATE_EXPLODE && stateTime >= EXPLOSION_DURATION) {
-			state = STATE_REMOVE;
-			stateTime = 0;
-		}
+    private fun remove() {
+        state = STATE_REMOVE
+    }
 
-		stateTime += delta;
+    override fun reset() {}
 
-	}
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_EXPLODE = 1
+        const val STATE_REMOVE = 2
+        private const val EXPLOSION_DURATION = .1F * 8F
+        const val DRAW_WIDTH = .43F
+        const val DRAW_HEIGHT = .68F
 
-	public void hit() {
-		if (state == STATE_NORMAL) {
-			state = STATE_EXPLODE;
-			stateTime = 0;
-			if (Settings.isSoundOn) {
-				Assets.playExplosionSound();
-			}
-		}
-	}
-
-	public void remove() {
-		state = STATE_REMOVE;
-	}
-
-	@Override
-	public void reset() {
-	}
-
+        const val WIDTH = .40F
+        const val HEIGHT = .65F
+        const val TYPE_YELLOW = 0
+        const val TYPE_BLACK = 1
+        const val TYPE_RED = 2
+        const val TYPE_GREEN = 3
+    }
 }
