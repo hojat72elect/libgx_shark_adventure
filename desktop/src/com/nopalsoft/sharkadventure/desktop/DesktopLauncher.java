@@ -56,13 +56,15 @@ public class DesktopLauncher {
         }
 
         @Override
-        public void getLeaderboard() {
+        public kotlin.Unit getLeaderboard() {
 
+            return null;
         }
 
         @Override
-        public void getAchievements() {
+        public kotlin.Unit getAchievements() {
 
+            return null;
         }
     };
     static FacebookHandler facebookHandler = new FacebookHandler() {

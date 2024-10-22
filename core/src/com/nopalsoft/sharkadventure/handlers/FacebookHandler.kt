@@ -1,9 +1,7 @@
-package com.nopalsoft.sharkadventure.handlers;
+package com.nopalsoft.sharkadventure.handlers
 
-public interface FacebookHandler {
+interface FacebookHandler {
+    fun facebookSignIn()
 
-    void facebookSignIn();
-
-    void showFacebook();
-
+    fun showFacebook()
 }

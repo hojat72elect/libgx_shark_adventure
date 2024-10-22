@@ -1,17 +1,15 @@
-package com.nopalsoft.sharkadventure.handlers;
+package com.nopalsoft.sharkadventure.handlers
 
-public interface GameServicesHandler {
+interface GameServicesHandler {
+    fun submitScore(score: Long)
 
-    void submitScore(long score);
+    fun unlockAchievement(achievementId: String)
 
-    void unlockAchievement(String achievementId);
+    val leaderboard: Unit
 
-    void getLeaderboard();
+    val achievements: Unit
 
-    void getAchievements();
+    val isSignedIn: Boolean
 
-    boolean isSignedIn();
-
-    void signIn();
-
+    fun signIn()
 }

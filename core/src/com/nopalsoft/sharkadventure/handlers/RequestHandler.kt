@@ -1,13 +1,11 @@
-package com.nopalsoft.sharkadventure.handlers;
+package com.nopalsoft.sharkadventure.handlers
 
-public interface RequestHandler {
+interface RequestHandler {
+    fun showInterstitial()
 
-    void showInterstitial();
+    fun shareOnTwitter(mensaje: String)
 
-    void shareOnTwitter(final String mensaje);
+    fun showAdBanner()
 
-    void showAdBanner();
-
-    void hideAdBanner();
-
+    fun hideAdBanner()
 }
