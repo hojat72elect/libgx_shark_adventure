@@ -29,7 +29,7 @@ public class Blast implements Poolable {
         velocity = new Vector2();
     }
 
-    public void init(float x, float y) {
+    public void initialize(float x, float y) {
         position.set(x, y);
         velocity.set(0, 0);
         stateTime = 0;

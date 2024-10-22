@@ -27,7 +27,7 @@ public class Missile implements Poolable {
         position = new Vector2();
     }
 
-    public void init(float x, float y, boolean isGoingLeft) {
+    public void initialize(float x, float y, boolean isGoingLeft) {
         position.set(x, y);
         stateTime = 0;
         state = STATE_NORMAL;

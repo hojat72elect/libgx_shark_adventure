@@ -49,7 +49,7 @@ public class Submarine implements Poolable {
         explosionStateTimes = new float[5];
     }
 
-    public void init(float x, float y, float targetX, float targetY) {
+    public void initialize(float x, float y, float targetX, float targetY) {
         position.set(x, y);
         targetPosition.set(targetX, targetY);
         stateTime = 0;

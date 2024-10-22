@@ -188,7 +188,7 @@ public class WorldGame {
 
     private void crearBarril(float x, float y) {
         Barrel obj = Pools.obtain(Barrel.class);
-        obj.init(x, y);
+        obj.initialize(x, y);
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -215,7 +215,7 @@ public class WorldGame {
 
     private void createItem() {
         Items obj = Pools.obtain(Items.class);
-        obj.init(Screens.WORLD_WIDTH + 1, MathUtils.random(Screens.WORLD_HEIGHT));
+        obj.initialize(Screens.WORLD_WIDTH + 1, MathUtils.random(Screens.WORLD_HEIGHT));
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -249,7 +249,7 @@ public class WorldGame {
         }
         Blast obj = Pools.obtain(Blast.class);
 
-        obj.init(x, shark.position.y - .15f);
+        obj.initialize(x, shark.position.y - .15f);
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -280,7 +280,7 @@ public class WorldGame {
             velX = -com.nopalsoft.sharkadventure.objects.Missile.SPEED_X;
         }
         com.nopalsoft.sharkadventure.objects.Missile obj = Pools.obtain(com.nopalsoft.sharkadventure.objects.Missile.class);
-        obj.init(x, y, goLeft);
+        obj.initialize(x, y, goLeft);
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -307,7 +307,7 @@ public class WorldGame {
 
     private void crearMina(float x, float y) {
         com.nopalsoft.sharkadventure.objects.Mine obj = Pools.obtain(com.nopalsoft.sharkadventure.objects.Mine.class);
-        obj.init(x, y);
+        obj.initialize(x, y);
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -363,7 +363,7 @@ public class WorldGame {
                 break;
         }
 
-        obj.init(x, y, xTarget, yTarget);
+        obj.initialize(x, y, xTarget, yTarget);
 
         BodyDef bd = new BodyDef();
         bd.position.set(obj.position.x, obj.position.y);
@@ -389,7 +389,7 @@ public class WorldGame {
     private void createMineChain() {
         float x = 10;
        Mine obj = Pools.obtain(Mine.class);
-        obj.init(x, 1);
+        obj.initialize(x, 1);
         obj.type = Mine.TYPE_GRAY;
 
         BodyDef bodyDef = new BodyDef();
@@ -425,10 +425,10 @@ public class WorldGame {
         Body link = null;
         for (int i = 0; i < numLinks; i++) {
             Chain objChain = Pools.obtain(Chain.class);
-            objChain.init(x, Chain.HEIGHT * i);
+            objChain.initialize(x, Chain.HEIGHT * i);
             bodyDef.position.set(objChain.position.x, objChain.position.y);
             if (i == 0) {
-                objChain.init(x, -.12f);// It makes the kinematic body appear a little lower so as not to be colliding with it.
+                objChain.initialize(x, -.12f);// It makes the kinematic body appear a little lower so as not to be colliding with it.
                 bodyDef.position.set(objChain.position.x, objChain.position.y);
                 bodyDef.type = BodyType.KinematicBody;
                 link = world.createBody(bodyDef);

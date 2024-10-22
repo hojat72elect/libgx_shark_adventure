@@ -25,7 +25,7 @@ public class Chain implements Poolable {
         position = new Vector2();
     }
 
-    public void init(float x, float y) {
+    public void initialize(float x, float y) {
         position.set(x, y);
         state = STATE_NORMAL;
 

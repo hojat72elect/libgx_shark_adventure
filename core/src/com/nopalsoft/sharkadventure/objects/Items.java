@@ -26,7 +26,7 @@ public class Items implements Poolable {
         position = new Vector2();
     }
 
-    public void init(float x, float y) {
+    public void initialize(float x, float y) {
         position.set(x, y);
         state = STATE_NORMAL;
         type = MathUtils.random(1);

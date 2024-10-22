@@ -37,7 +37,7 @@ public class Barrel implements Poolable {
 
 	}
 
-	public void init(float x, float y) {
+	public void initialize(float x, float y) {
 		position.set(x, y);
 		stateTime = 0;
 		state = STATE_NORMAL;

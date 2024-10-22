@@ -36,7 +36,7 @@ public class Mine implements Poolable {
 		position = new Vector2();
 	}
 
-	public void init(float x, float y) {
+	public void initialize(float x, float y) {
 		position.set(x, y);
 		stateTime = 0;
 		state = STATE_NORMAL;
