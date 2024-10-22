@@ -1,54 +1,52 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.screens.Screens;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.screens.Screens
 
-public class Chain implements Poolable {
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_REMOVE = 2;
-    public int state;
+/**
+ * Represents the chain which holds an under-water mine in our game. The physical behavior of this
+ * chain is implemented via Box2D. Our chain has properties such as position, angle, and state. Everything is cleaned up when the mine attached to chain is hit or chain goes off-screen.
+ */
+class Chain : Poolable {
 
-    public final static float DRAW_WIDTH = .16f;
-    public final static float DRAW_HEIGHT = .24f;
+    @JvmField
+    var state = STATE_NORMAL
 
-    public final static float WIDTH = .13f;
-    public final static float HEIGHT = .21f;
-    public static final float SPEED_X = -1;
+    @JvmField
+    val position = Vector2()
 
-    final public Vector2 position;
-    public float angleDegree;
+    @JvmField
+    var angleDegree = 0F
 
-    public Chain() {
-        position = new Vector2();
+    fun initialize(x: Float, y: Float) {
+        position.set(x, y)
+        state = STATE_NORMAL
     }
 
-    public void initialize(float x, float y) {
-        position.set(x, y);
-        state = STATE_NORMAL;
+    fun update(body: Body) {
+        position.x = body.position.x
+        position.y = body.position.y
+        angleDegree = MathUtils.radDeg * body.angle
 
+        if (position.x < -3 || position.y > Screens.WORLD_HEIGHT + 3) state = STATE_REMOVE
     }
 
-    public void update(Body body) {
-        position.x = body.getPosition().x;
-        position.y = body.getPosition().y;
-        angleDegree = MathUtils.radDeg * body.getAngle();
-
-        if (position.x < -3 || position.y > Screens.WORLD_HEIGHT + 3) {
-            state = STATE_REMOVE;
-        }
+    fun hit() {
+        if (state == STATE_NORMAL) state = STATE_REMOVE
     }
 
-    public void hit() {
-        if (state == STATE_NORMAL) {
-            state = STATE_REMOVE;
-        }
-    }
+    override fun reset() {}
 
-    @Override
-    public void reset() {
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_REMOVE = 2
+        const val DRAW_WIDTH = .16F
+        const val DRAW_HEIGHT = .24F
+        const val WIDTH = .13F
+        const val HEIGHT = .21F
+        const val SPEED_X = -1F
     }
-
 }
