@@ -1,76 +1,76 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.Assets;
-import com.nopalsoft.sharkadventure.Settings;
-import com.nopalsoft.sharkadventure.screens.Screens;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.Assets
+import com.nopalsoft.sharkadventure.Settings
+import com.nopalsoft.sharkadventure.screens.Screens
 
-public class Mine implements Poolable {
-	public final static int STATE_NORMAL = 0;
-	public final static int STATE_EXPLODE = 1;
-	public final static int STATE_REMOVE = 2;
-	public int state;
+class Mine : Poolable {
 
-	public final static int SPEED_X = -1;
+    @JvmField
+    var state = STATE_NORMAL
 
-	public final static float EXPLOSION_DURATION = .8f;
+    @JvmField
+    var type = MathUtils.random(3)
 
-	public final static float DRAW_WIDTH = .56f;
-	public final static float DRAW_HEIGHT = .64f;
+    @JvmField
+    val position = Vector2()
 
-	public final static float WIDTH = .53f;
-	public final static float HEIGHT = .61f;
+    @JvmField
+    var stateTime = 0F
 
-	public final static int TYPE_GRAY = 2;
-	public final static int TYPE_OXIDE = 3;
-	public int type;
+    fun initialize(x: Float, y: Float) {
+        position.set(x, y)
+        stateTime = 0F
+        state = STATE_NORMAL
+        type = MathUtils.random(3)
+    }
 
-	final public Vector2 position;
+    fun update(body: Body, delta: Float) {
+        if (state == STATE_NORMAL) {
+            position.x = body.position.x
+            position.y = body.position.y
 
-	public float stateTime;
+            if (position.x < -3 || position.y > Screens.WORLD_HEIGHT + 3) hit()
+        } else if (state == STATE_EXPLODE && stateTime >= EXPLOSION_DURATION) {
+            state = STATE_REMOVE
+            stateTime = 0f
+        }
 
-	public Mine() {
-		position = new Vector2();
-	}
+        stateTime += delta
+    }
 
-	public void initialize(float x, float y) {
-		position.set(x, y);
-		stateTime = 0;
-		state = STATE_NORMAL;
-		type = MathUtils.random(3);
-	}
+    fun hit() {
+        if (state == STATE_NORMAL) {
+            state = STATE_EXPLODE
+            stateTime = 0F
+            if (Settings.isSoundOn) {
+                Assets.playExplosionSound()
+            }
+        }
+    }
 
-	public void update(Body body, float delta) {
-		if (state == STATE_NORMAL) {
-			position.x = body.getPosition().x;
-			position.y = body.getPosition().y;
+    override fun reset() {}
 
-			if (position.x < -3 || position.y > Screens.WORLD_HEIGHT + 3)
-				hit();
-		}
-		else if (state == STATE_EXPLODE && stateTime >= EXPLOSION_DURATION) {
-			state = STATE_REMOVE;
-			stateTime = 0;
-		}
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_EXPLODE = 1
+        const val STATE_REMOVE = 2
 
-		stateTime += delta;
+        const val SPEED_X = -1
 
-	}
+        const val EXPLOSION_DURATION = .8F
 
-	public void hit() {
-		if (state == STATE_NORMAL) {
-			state = STATE_EXPLODE;
-			stateTime = 0;
-			if (Settings.isSoundOn) {
-				Assets.playExplosionSound();
-			}
-		}
-	}
+        const val DRAW_WIDTH = .56F
+        const val DRAW_HEIGHT = .64F
 
-	@Override
-	public void reset() {
-	}
+        const val WIDTH = .53F
+        const val HEIGHT = .61F
+
+        const val TYPE_GRAY = 2
+        const val TYPE_OXIDE = 3
+    }
 }
