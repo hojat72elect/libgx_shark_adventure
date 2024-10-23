@@ -1,55 +1,53 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
 
-public class GameItem implements Poolable {
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_REMOVE = 1;
-    public int state;
+class GameItem : Poolable {
 
-    public final static int TYPE_MEAT = 1;
-    public int type;
+    @JvmField
+    var state = STATE_NORMAL
 
-    public final static float DRAW_WIDTH = .45f;
-    public final static float DRAW_HEIGHT = .45f;
+    @JvmField
+    var type = MathUtils.random(1)
 
-    public final static float WIDTH = .35f;
-    public final static float HEIGHT = .35f;
-    public static final float SPEED_X = -1f;
+    @JvmField
+    val position = Vector2()
 
-    final public Vector2 position;
-
-    public GameItem() {
-        position = new Vector2();
+    fun initialize(x: Float, y: Float) {
+        position.set(x, y)
+        state = STATE_NORMAL
+        type = MathUtils.random(1)
     }
 
-    public void initialize(float x, float y) {
-        position.set(x, y);
-        state = STATE_NORMAL;
-        type = MathUtils.random(1);
-
-    }
-
-    public void update(Body body) {
-        position.x = body.getPosition().x;
-        position.y = body.getPosition().y;
+    fun update(body: Body) {
+        position.x = body.position.x
+        position.y = body.position.y
 
         if (position.x < -3) {
-            state = STATE_REMOVE;
+            state = STATE_REMOVE
         }
     }
 
-    public void hit() {
-        if (state == STATE_NORMAL) {
-            state = STATE_REMOVE;
-        }
+    fun hit() {
+        if (state == STATE_NORMAL) state = STATE_REMOVE
+
     }
 
-    @Override
-    public void reset() {
-    }
+    override fun reset() {}
 
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_REMOVE = 1
+        const val TYPE_MEAT = 1
+
+        const val DRAW_WIDTH = .45f
+        const val DRAW_HEIGHT = .45f
+
+        const val WIDTH = .35f
+        const val HEIGHT = .35f
+        const val SPEED_X = -1f
+    }
 }
