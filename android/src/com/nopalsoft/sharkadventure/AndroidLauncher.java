@@ -63,8 +63,8 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
     }
 
     @Override
-    public void shareOnTwitter(String mensaje) {
-        String tweetUrl = "https://twitter.com/intent/tweet?text=" + mensaje + " Download it from &url=https://play.google.com/&hashtags=SharkAdventure";
+    public void shareOnTwitter(String message) {
+        String tweetUrl = "https://twitter.com/intent/tweet?text=" + message + " Download it from &url=https://play.google.com/&hashtags=SharkAdventure";
         Gdx.net.openURI(tweetUrl);
     }
 
