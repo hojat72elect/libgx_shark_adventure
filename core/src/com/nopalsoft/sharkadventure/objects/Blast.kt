@@ -1,68 +1,70 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.screens.Screens;
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.screens.Screens
 
-public class Blast implements Poolable {
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_HIT = 1;
-    public final static int STATE_REMOVE = 2;
-    public int state;
+/**
+ * This class represents any of the bullets that Shark can fire.
+ */
+class Blast : Poolable {
 
-    public final static float DURATION_HIT = .05f * 6f;
+    @JvmField
+    var state = STATE_NORMAL
 
-    public final static float SPEED_X = 5.5f;
-    public final static float DRAW_WIDTH = .32f;
-    public final static float DRAW_HEIGHT = .32f;
+    @JvmField
+    val position = Vector2()
 
-    public final static float WIDTH = .31f;
-    public final static float HEIGHT = .31f;
+    @JvmField
+    var velocity = Vector2()
 
-    final public Vector2 position;
-    public Vector2 velocity;
-    public float stateTime;
+    @JvmField
+    var stateTime = 0F
 
-    public Blast() {
-        position = new Vector2();
-        velocity = new Vector2();
+    fun initialize(x: Float, y: Float) {
+        position.set(x, y)
+        velocity.set(0F, 0F)
+        stateTime = 0F
+        state = STATE_NORMAL
     }
 
-    public void initialize(float x, float y) {
-        position.set(x, y);
-        velocity.set(0, 0);
-        stateTime = 0;
-        state = STATE_NORMAL;
-    }
-
-    public void update(Body body, float delta) {
+    fun update(body: Body, delta: Float) {
         if (state == STATE_NORMAL) {
-            position.x = body.getPosition().x;
-            position.y = body.getPosition().y;
+            position.x = body.position.x
+            position.y = body.position.y
 
-            velocity = body.getLinearVelocity();
+            velocity = body.linearVelocity
 
-            if (position.y < -3 || position.x > Screens.WORLD_WIDTH + 3)
-                hit();
+            if (position.y < -3 || position.x > Screens.WORLD_WIDTH + 3) hit()
         } else if (state == STATE_HIT && stateTime >= DURATION_HIT) {
-            state = STATE_REMOVE;
-            stateTime = 0;
+            state = STATE_REMOVE
+            stateTime = 0f
         }
 
-        stateTime += delta;
-
+        stateTime += delta
     }
 
-    public void hit() {
+    fun hit() {
         if (state == STATE_NORMAL) {
-            state = STATE_HIT;
-            stateTime = 0;
+            state = STATE_HIT
+            stateTime = 0f
         }
     }
 
-    @Override
-    public void reset() {
-    }
+    override fun reset() {}
 
+    companion object {
+
+        const val STATE_NORMAL = 0
+        const val STATE_HIT = 1
+        const val STATE_REMOVE = 2
+
+        const val DURATION_HIT = 0.3F
+        const val SPEED_X = 5.5F
+        const val DRAW_WIDTH = .32F
+        const val DRAW_HEIGHT = .32F
+        const val WIDTH = .31F
+        const val HEIGHT = .31F
+    }
 }
