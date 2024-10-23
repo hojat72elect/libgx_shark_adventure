@@ -24,7 +24,6 @@ import com.nopalsoft.sharkadventure.Assets;
 import com.nopalsoft.sharkadventure.Settings;
 import com.nopalsoft.sharkadventure.objects.Blast;
 import com.nopalsoft.sharkadventure.objects.Chain;
-import com.nopalsoft.sharkadventure.objects.Items;
 import com.nopalsoft.sharkadventure.screens.Screens;
 import java.util.Iterator;
 import com.nopalsoft.sharkadventure.objects.Submarine;
@@ -63,7 +62,7 @@ public class WorldGame {
     Array<Blast> arrayBlasts;
     Array<Missile> arrayMissiles;
     Array<Submarine> arraySubmarines;
-    Array<Items> arrayItems;
+    Array<com.nopalsoft.sharkadventure.objects.GameItem> arrayItems;
 
     double score;
 
@@ -214,7 +213,7 @@ public class WorldGame {
     }
 
     private void createItem() {
-        Items obj = Pools.obtain(Items.class);
+        com.nopalsoft.sharkadventure.objects.GameItem obj = Pools.obtain(com.nopalsoft.sharkadventure.objects.GameItem.class);
         obj.initialize(Screens.WORLD_WIDTH + 1, MathUtils.random(Screens.WORLD_HEIGHT));
 
         BodyDef bd = new BodyDef();
@@ -224,7 +223,7 @@ public class WorldGame {
         Body body = world.createBody(bd);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Items.WIDTH / 2f, Items.HEIGHT / 2f);
+        shape.setAsBox(com.nopalsoft.sharkadventure.objects.GameItem.WIDTH / 2f, com.nopalsoft.sharkadventure.objects.GameItem.HEIGHT / 2f);
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
@@ -233,7 +232,7 @@ public class WorldGame {
         body.createFixture(fixture);
         body.setUserData(obj);
         body.setFixedRotation(true);
-        body.setLinearVelocity(Items.SPEED_X, 0);
+        body.setLinearVelocity(com.nopalsoft.sharkadventure.objects.GameItem.SPEED_X, 0);
 
         arrayItems.add(obj);
         shape.dispose();
@@ -532,7 +531,7 @@ public class WorldGame {
                 updateMissile(body, delta);
             } else if (body.getUserData() instanceof Submarine) {
                 updateSubmarine(body, delta);
-            } else if (body.getUserData() instanceof Items) {
+            } else if (body.getUserData() instanceof com.nopalsoft.sharkadventure.objects.GameItem) {
                 updateItems(body);
             }
 
@@ -600,9 +599,9 @@ public class WorldGame {
                         Pools.free(obj);
                         world.destroyBody(body);
                     }
-                } else if (body.getUserData() instanceof Items) {
-                    Items obj = (Items) body.getUserData();
-                    if (obj.state == Items.STATE_REMOVE) {
+                } else if (body.getUserData() instanceof com.nopalsoft.sharkadventure.objects.GameItem) {
+                    com.nopalsoft.sharkadventure.objects.GameItem obj = (com.nopalsoft.sharkadventure.objects.GameItem) body.getUserData();
+                    if (obj.state == com.nopalsoft.sharkadventure.objects.GameItem.STATE_REMOVE) {
                         arrayItems.removeValue(obj, true);
                         Pools.free(obj);
                         world.destroyBody(body);
@@ -682,7 +681,7 @@ public class WorldGame {
     }
 
     private void updateItems(Body body) {
-        Items obj = (Items) body.getUserData();
+        com.nopalsoft.sharkadventure.objects.GameItem obj = (com.nopalsoft.sharkadventure.objects.GameItem) body.getUserData();
         obj.update(body);
     }
 
@@ -771,10 +770,10 @@ public class WorldGame {
                     shark.hit();
                     shark.hit();
                 }
-            } else if (otraCosa instanceof Items) {
-                Items obj = (Items) otraCosa;
-                if (obj.state == Items.STATE_NORMAL) {
-                    if (obj.type == Items.TYPE_MEAT) {
+            } else if (otraCosa instanceof com.nopalsoft.sharkadventure.objects.GameItem) {
+                com.nopalsoft.sharkadventure.objects.GameItem obj = (com.nopalsoft.sharkadventure.objects.GameItem) otraCosa;
+                if (obj.state == com.nopalsoft.sharkadventure.objects.GameItem.STATE_NORMAL) {
+                    if (obj.type == com.nopalsoft.sharkadventure.objects.GameItem.TYPE_MEAT) {
                         shark.energy += 15;
                     } else {
                         shark.life += 1;

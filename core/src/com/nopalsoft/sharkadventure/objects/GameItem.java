@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class Items implements Poolable {
+public class GameItem implements Poolable {
     public final static int STATE_NORMAL = 0;
     public final static int STATE_REMOVE = 1;
     public int state;
@@ -22,7 +22,7 @@ public class Items implements Poolable {
 
     final public Vector2 position;
 
-    public Items() {
+    public GameItem() {
         position = new Vector2();
     }
 

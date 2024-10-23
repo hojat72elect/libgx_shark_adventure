@@ -60,15 +60,15 @@ public class WorldRenderer {
     }
 
     private void drawItems() {
-        for (Items obj : worldGame.arrayItems) {
+        for (com.nopalsoft.sharkadventure.objects.GameItem obj : worldGame.arrayItems) {
             AtlasRegion keyFrame;
-            if (obj.type == Items.TYPE_MEAT)
+            if (obj.type == com.nopalsoft.sharkadventure.objects.GameItem.TYPE_MEAT)
                 keyFrame = Assets.meat;
             else
                 keyFrame = Assets.heart;
 
-            batcher.draw(keyFrame, obj.position.x - Items.DRAW_WIDTH / 2f, obj.position.y - Items.DRAW_HEIGHT / 2f, Items.DRAW_WIDTH,
-                    Items.DRAW_HEIGHT);
+            batcher.draw(keyFrame, obj.position.x - com.nopalsoft.sharkadventure.objects.GameItem.DRAW_WIDTH / 2f, obj.position.y - com.nopalsoft.sharkadventure.objects.GameItem.DRAW_HEIGHT / 2f, com.nopalsoft.sharkadventure.objects.GameItem.DRAW_WIDTH,
+                    com.nopalsoft.sharkadventure.objects.GameItem.DRAW_HEIGHT);
         }
 
     }
