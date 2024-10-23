@@ -1,67 +1,70 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.Assets;
-import com.nopalsoft.sharkadventure.Settings;
-import com.nopalsoft.sharkadventure.screens.Screens;
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.Assets
+import com.nopalsoft.sharkadventure.Settings
+import com.nopalsoft.sharkadventure.screens.Screens
 
-public class Missile implements Poolable {
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_EXPLODE = 1;
-    public final static int STATE_REMOVE = 2;
-    public int state;
+/**
+ * Each one of the missile that are shot by the submarine.
+ */
+class Missile : Poolable {
 
-    public final static float EXPLOSION_DURATION = .1f * 8f;
+    @JvmField
+    var state = STATE_NORMAL
 
-    public final static float SPEED_X = 1.7f;
-    public final static float DRAW_WIDTH = .8f;
-    public final static float DRAW_HEIGHT = .3f;
+    @JvmField
+    val position = Vector2()
 
-    final public Vector2 position;
-    public float stateTime;
-    public boolean isGoingLeft;
+    @JvmField
+    var stateTime = 0F
 
-    public Missile() {
-        position = new Vector2();
+    @JvmField
+    var isGoingLeft = false
+
+    fun initialize(x: Float, y: Float, isGoingLeft: Boolean) {
+        position.set(x, y)
+        stateTime = 0F
+        state = STATE_NORMAL
+        this.isGoingLeft = isGoingLeft
     }
 
-    public void initialize(float x, float y, boolean isGoingLeft) {
-        position.set(x, y);
-        stateTime = 0;
-        state = STATE_NORMAL;
-        this.isGoingLeft = isGoingLeft;
-    }
-
-    public void update(Body body, float delta) {
+    fun update(body: Body, delta: Float) {
         if (state == STATE_NORMAL) {
-            position.x = body.getPosition().x;
-            position.y = body.getPosition().y;
+            position.x = body.position.x
+            position.y = body.position.y
 
-            if (position.y < -3 || position.x > Screens.WORLD_WIDTH + 3)
-                hit();
+            if (position.y < -3 || position.x > Screens.WORLD_WIDTH + 3) hit()
         } else if (state == STATE_EXPLODE && stateTime >= EXPLOSION_DURATION) {
-            state = STATE_REMOVE;
-            stateTime = 0;
+            state = STATE_REMOVE
+            stateTime = 0F
         }
 
-        stateTime += delta;
-
+        stateTime += delta
     }
 
-    public void hit() {
+    fun hit() {
         if (state == STATE_NORMAL) {
-            state = STATE_EXPLODE;
-            stateTime = 0;
+            state = STATE_EXPLODE
+            stateTime = 0F
             if (Settings.isSoundOn) {
-                Assets.playExplosionSound();
+                Assets.playExplosionSound()
             }
         }
     }
 
-    @Override
-    public void reset() {
-    }
+    override fun reset() {}
 
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_EXPLODE = 1
+        const val STATE_REMOVE = 2
+
+        const val EXPLOSION_DURATION = 0.8F
+        const val SPEED_X = 1.7F
+        const val DRAW_WIDTH = .8F
+        const val DRAW_HEIGHT = .3F
+    }
 }
