@@ -1,132 +1,128 @@
-package com.nopalsoft.sharkadventure.objects;
+package com.nopalsoft.sharkadventure.objects
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.Poolable;
-import com.nopalsoft.sharkadventure.Assets;
-import com.nopalsoft.sharkadventure.Settings;
-import com.nopalsoft.sharkadventure.screens.Screens;
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.nopalsoft.sharkadventure.Assets
+import com.nopalsoft.sharkadventure.Settings
+import com.nopalsoft.sharkadventure.screens.Screens
 
-public class Submarine implements Poolable {
-    public final static int STATE_NORMAL = 0;
-    public final static int STATE_EXPLODE = 1;
-    public final static int STATE_REMOVE = 2;
-    public int state;
+class Submarine() : Poolable {
 
-    public final static float EXPLOSION_DURATION = .1f * 8f;
-    public final static float SPEED = 1.2f;
+    @JvmField
+    var state = 0
 
-    public static float TIME_TO_FIRE;
-    public float timeToFire;
+    @JvmField
+    var type = 0
+    private var timeToFire = 0F
+    private val targetPosition = Vector2()
 
-    public final static float DRAW_WIDTH = 1.28f;
-    public final static float DRAW_HEIGHT = 1.12f;
+    @JvmField
+    val position = Vector2()
 
-    public final static float WIDTH = 1.25f;
-    public final static float HEIGHT = 1.09f;
+    @JvmField
+    var velocity = Vector2()
+    private var angleDegree = 0F
 
-    public final static int TYPE_YELLOW = 0;
-    public final static int TYPE_RED = 1;
-    public int type;
 
-    final public Vector2 targetPosition;
-    final public Vector2 position;
-    public Vector2 velocity;
+    private var stateTime = 0F
 
-    public float angleDegree;
+    @JvmField
+    val explosionStateTimes = FloatArray(5)
 
-    public float stateTime;
-    public float[] explosionStateTimes;
-    public boolean didFire;
+    @JvmField
+    var didFire = false
 
-    int life;
+    private var life = 0
 
-    public Submarine() {
-        targetPosition = new Vector2();
-        position = new Vector2();
-        velocity = new Vector2();
-        explosionStateTimes = new float[5];
+    fun initialize(x: Float, y: Float, targetX: Float, targetY: Float) {
+        position.set(x, y)
+        targetPosition.set(targetX, targetY)
+        stateTime = 0f
+        state = STATE_NORMAL
+        type = MathUtils.random(1)
+        timeToFire = 0f
+        life = 10
+
+        explosionStateTimes[0] = -1f
+        explosionStateTimes[1] = -.5f
+        explosionStateTimes[2] = -.7f
+        explosionStateTimes[3] = 0f
+        explosionStateTimes[4] = -.3f
     }
 
-    public void initialize(float x, float y, float targetX, float targetY) {
-        position.set(x, y);
-        targetPosition.set(targetX, targetY);
-        stateTime = 0;
-        state = STATE_NORMAL;
-        type = MathUtils.random(1);
-        timeToFire = 0;
-        TIME_TO_FIRE = MathUtils.random(1.25f, 2.75f);
-        life = 10;
-
-        explosionStateTimes[0] = -1;
-        explosionStateTimes[1] = -.5f;
-        explosionStateTimes[2] = -.7f;
-        explosionStateTimes[3] = 0;
-        explosionStateTimes[4] = -.3f;
-
-    }
-
-    public void update(Body body, float delta) {
-
-        velocity = body.getLinearVelocity();
+    fun update(body: Body, delta: Float) {
+        velocity = body.linearVelocity
 
         if (state == STATE_NORMAL) {
-            position.x = body.getPosition().x;
-            position.y = body.getPosition().y;
-            angleDegree = MathUtils.radDeg * body.getAngle();
+            position.x = body.position.x
+            position.y = body.position.y
+            angleDegree = MathUtils.radDeg * body.angle
 
-            if (position.y < -4 || position.y > Screens.WORLD_HEIGHT + 4 || position.x < -4 || position.x > Screens.WORLD_WIDTH + 3)
-                remove();
+            if (position.y < -4 || position.y > Screens.WORLD_HEIGHT + 4 || position.x < -4 || position.x > Screens.WORLD_WIDTH + 3) remove()
 
-            velocity.set(targetPosition).sub(position).nor().scl(SPEED);
+            velocity.set(targetPosition).sub(position).nor().scl(SPEED)
 
-            timeToFire += delta;
+            timeToFire += delta
             if (timeToFire > TIME_TO_FIRE) {
-                timeToFire -= TIME_TO_FIRE;
-                didFire = true;
+                timeToFire -= TIME_TO_FIRE
+                didFire = true
             }
-
         } else if (state == STATE_EXPLODE) {
-            boolean remove = true;
-            for (int i = 0; i < explosionStateTimes.length; i++) {
-                explosionStateTimes[i] += delta;
+            var remove = true
+            for (i in explosionStateTimes.indices) {
+                explosionStateTimes[i] += delta
                 if (explosionStateTimes[i] < EXPLOSION_DURATION) {
-                    remove = false;
+                    remove = false
                 }
             }
 
             if (remove) {
-                state = STATE_REMOVE;
-                stateTime = 0;
+                state = STATE_REMOVE
+                stateTime = 0f
             }
         }
 
-        body.setLinearVelocity(velocity);
+        body.linearVelocity = velocity
 
-        stateTime += delta;
-
+        stateTime += delta
     }
 
-    public void hit() {
+    fun hit() {
         if (state == STATE_NORMAL) {
-            life--;
+            life--
             if (life <= 0) {
-                state = STATE_EXPLODE;
-                stateTime = 0;
+                state = STATE_EXPLODE
+                stateTime = 0f
                 if (Settings.isSoundOn) {
-                    Assets.playExplosionSound();
+                    Assets.playExplosionSound()
                 }
             }
         }
     }
 
-    public void remove() {
-        state = STATE_REMOVE;
+    fun remove() {
+        state = STATE_REMOVE
     }
 
-    @Override
-    public void reset() {
+    override fun reset() {
     }
 
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_EXPLODE = 1
+        const val STATE_REMOVE = 2
+        const val EXPLOSION_DURATION = 0.8F
+        private const val SPEED = 1.2F
+        private val TIME_TO_FIRE = MathUtils.random(1.25f, 2.75f)
+
+        const val DRAW_WIDTH = 1.28F
+        const val DRAW_HEIGHT = 1.12F
+        const val WIDTH = 1.25F
+        const val HEIGHT = 1.09F
+        const val TYPE_YELLOW = 0
+        const val TYPE_RED = 1
+
+    }
 }
